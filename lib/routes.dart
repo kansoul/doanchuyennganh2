@@ -19,4 +19,5 @@ final Map<String, WidgetBuilder> routes = {
   ChatsScreen.routeName: (context) => ChatsScreen(),
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
   AddFriendScreen.routeName: (context) => AddFriendScreen(),
+  //VideoCallScreem.routeName: (context) => VideoCallScreem(),
 };

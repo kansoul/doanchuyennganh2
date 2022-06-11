@@ -33,17 +33,17 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final List<Map<String, dynamic>> _items = [
     {
       'value': 'Male',
-      'label': 'Male',
+      'label': 'Nam',
       'icon': Icon(Icons.male),
     },
     {
       'value': 'Female',
-      'label': 'Female',
+      'label': 'Nữ',
       'icon': Icon(Icons.female),
     },
     {
       'value': 'No',
-      'label': 'No',
+      'label': 'Không biết',
       //'enable': false,
       'icon': Icon(Icons.not_interested),
     },
@@ -81,22 +81,22 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(25)),
           DefaultButton(
-            text: "Continue",
+            text: "Hoàn thành",
             press: () {
               if (_formKey.currentState!.validate()) {
                 try {
-                  if (selectedValue == 'Male') {
+                  if (selectedValue == 'Nam') {
                     img =
                         "https://cdn.icon-icons.com/icons2/2643/PNG/512/male_boy_person_people_avatar_icon_159358.png";
                   }
                   ;
-                  if (selectedValue == 'FeMale') {
+                  if (selectedValue == 'Nữ') {
                     img =
                         "https://cdn1.iconfinder.com/data/icons/avatars-1-5/136/87-512.png";
                   }
                   ;
 
-                  if (selectedValue == 'No') {
+                  if (selectedValue == 'Không biết') {
                     img =
                         "https://as1.ftcdn.net/v2/jpg/02/85/50/62/1000_F_285506285_DGnMLGrB08BLIIVHEE4gywoDyzHYqnYt.jpg";
                   }
@@ -114,6 +114,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                   dynamic res = addimg(img);
                   dynamic cchat = createchat(
                       FirebaseAuth.instance.currentUser!.uid.toString());
+                  dynamic last = createchatlast(
+                      FirebaseAuth.instance.currentUser!.uid.toString());
                   dynamic cfriend = createfriend(
                       FirebaseAuth.instance.currentUser!.uid.toString());
                   dynamic cfriendreq = createfriendreq(
@@ -124,7 +126,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                       re != null &&
                       cchat != null &&
                       cfriend != null &&
-                      cfriendreq != null) {
+                      cfriendreq != null &&
+                      last != null) {
                     Navigator.pushNamed(context, ChatsScreen.routeName);
                   }
                 } catch (e) {
@@ -152,7 +155,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           selectedValue = value;
         });
       },
-      items: <String>['No', 'Male', 'FeMale']
+      items: <String>['Không biết', 'Nam', 'Nữ']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -160,8 +163,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         );
       }).toList(),
       decoration: InputDecoration(
-        labelText: "Sex",
-        hintText: "Enter your sex",
+        labelText: "Giới tính",
+        hintText: "Chọn giới tính của bạn",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -188,8 +191,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Address",
-        hintText: "Enter your address",
+        labelText: "Địa chỉ",
+        hintText: "Nhập địa chỉ của bạn",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -218,8 +221,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Phone Number",
-        hintText: "Enter your phone number",
+        labelText: "Số điện thoại",
+        hintText: "Nhập số điện thoại của bạn",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -248,8 +251,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         ;
       },
       decoration: InputDecoration(
-        labelText: "Birthday",
-        hintText: "Enter your Birthday",
+        labelText: "Sinh nhật",
+        hintText: "Chọn ngày sinh của bạn",
 
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
@@ -277,8 +280,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Full Name",
-        hintText: "Enter your full name",
+        labelText: "Tên",
+        hintText: "Nhập tên của bạn",
 
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly

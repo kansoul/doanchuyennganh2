@@ -1,8 +1,10 @@
+import 'package:chatapp/components/addfriend_text.dart';
 import 'package:chatapp/models/Chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../add_friend/add_friend.dart';
 import '../../messenger/messenger_screen.dart';
 import 'friend_card.dart';
 
@@ -80,11 +82,11 @@ class Body extends StatelessWidget {
                                               press: () {},
                                             );
                                           } else
-                                            return Text("Đồ ngu, không có bạn");
+                                            return Text("NO DATA");
                                         });
                                   }));
                         } else
-                          return Text("Đồ ngu, không có bạn");
+                          return Text("NO DATA");
                       })
                 ],
               );
@@ -109,7 +111,11 @@ class Body extends StatelessWidget {
                         border: InputBorder.none),
                   ),
                 ),
-                Text("Đi kết bạn đi"),
+                Addfriendtext(
+                    press: () {
+                      Navigator.pushNamed(context, AddFriendScreen.routeName);
+                    },
+                    text: "kết bạn"),
               ]);
           } else
             return Text("Lỗi kết nối");

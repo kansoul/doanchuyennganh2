@@ -5,10 +5,16 @@ import 'package:chatapp/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
+import '../../../components/addfriend_text.dart';
+import '../../../firestore.dart';
 import '../../../models/Chat.dart';
+import '../../add_friend/add_friend.dart';
 import 'chats_card.dart';
 import 'friendcard.dart';
+
+DateTime now = DateTime.now();
+String formattedDate = DateFormat('kk:mm').format(now);
 
 class Body extends StatelessWidget {
   //const Body({ Key? key }) : super(key: key);
@@ -68,10 +74,21 @@ class Body extends StatelessWidget {
                                   fullname: data['fullname'],
                                   img: data['img'],
                                   uid: data['uid'],
-                                  press: () {},
+                                  press: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MessengerScreen(
+                                                  email: data['email'],
+                                                  fullname: data['fullname'],
+                                                  img: data['img'],
+                                                  uid: data['uid'],
+                                                )));
+                                  },
                                 );
                               } else
-                                return Text("Đồ ngu, không có bạn");
+                                return Text("Trống");
                             });
                       } else
                         return SizedBox.shrink();
@@ -79,14 +96,14 @@ class Body extends StatelessWidget {
                   ),
                 );
               } else
-                return Text("Đồ ngu, không có bạn");
+                return Text("Trống");
             }),
         SizedBox(
           height: 7,
         ),
         StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection("Messenger")
+                .collection("LastMessenger")
                 .doc(FirebaseAuth.instance.currentUser!.uid.toString())
                 .snapshots(),
             builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -94,150 +111,229 @@ class Body extends StatelessWidget {
                 //data0->messenger
                 Map<String, dynamic> data0 =
                     snapshot.data!.data() as Map<String, dynamic>;
-                return Expanded(
-                    child: ListView.builder(
-                        itemCount: data0.length - 1,
-                        padding: EdgeInsets.fromLTRB(9, 5, 10, 5),
-                        itemBuilder: (context, index) {
-                          return StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection("Friend")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid
-                                      .toString())
-                                  .snapshots(),
-                              builder: (context,
-                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                if (snapshot.hasData) {
-                                  Map<String, dynamic> data1 = snapshot.data!
-                                      .data() as Map<String, dynamic>;
-                                  if (data1['Friend'].length == data0.length) {
-                                    int _le =
-                                        data0[data1['Friend'][index + 1]['uid']]
-                                            .length;
-                                    String _email =
-                                        data1['Friend'][index + 1]['email'];
-                                    print(_email);
-                                    return StreamBuilder(
-                                        stream: FirebaseFirestore.instance
-                                            .collection("UserDetail")
-                                            .doc(_email)
-                                            .snapshots(),
-                                        builder: (context,
-                                            AsyncSnapshot<DocumentSnapshot>
-                                                snapshot) {
-                                          if (snapshot.hasData) {
-                                            Map<String, dynamic> data2 =
-                                                snapshot.data!.data()
-                                                    as Map<String, dynamic>;
-                                            if (data0[data1['Friend'][index + 1]
-                                                ['uid']][_le - 1]['text']) {
-                                              return ChatsCard(
-                                                checkonline:
-                                                    data2['checkonline'],
-                                                email: data2['email'],
-                                                fullname: data2['fullname'],
-                                                img: data2['img'],
-                                                uid: data2['uid'],
-                                                lastmessenger: data0[
-                                                        data1['Friend']
-                                                            [index + 1]['uid']]
-                                                    [_le - 1]['messenger'],
-                                                time: data0[data1['Friend']
-                                                        [index + 1]['uid']]
-                                                    [_le - 1]['time'],
-                                                seen: data0[data1['Friend']
-                                                        [index + 1]['uid']]
-                                                    [_le - 1]['seen'],
-                                                send: data0[data1['Friend']
-                                                        [index + 1]['uid']]
-                                                    [_le - 1]['send'],
-                                                press: () => Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
+                if (data0.length > 1) {
+                  return Expanded(
+                      child: ListView.builder(
+                          itemCount: data0.length - 1,
+                          padding: EdgeInsets.fromLTRB(9, 5, 10, 5),
+                          itemBuilder: (context, index) {
+                            return StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection("Friend")
+                                    .doc(FirebaseAuth.instance.currentUser!.uid
+                                        .toString())
+                                    .snapshots(),
+                                builder: (context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                  if (snapshot.hasData) {
+                                    Map<String, dynamic> data1 = snapshot.data!
+                                        .data() as Map<String, dynamic>;
+                                    if (data1['Friend'].length ==
+                                        data0.length) {
+                                      // int _le =
+                                      //     data0[data1['Friend'][index + 1]['uid']]
+                                      //         .length;
+                                      String _email =
+                                          data1['Friend'][index + 1]['email'];
+                                      //print(_email);
+                                      return StreamBuilder(
+                                          stream: FirebaseFirestore.instance
+                                              .collection("UserDetail")
+                                              .doc(_email)
+                                              .snapshots(),
+                                          builder: (context,
+                                              AsyncSnapshot<DocumentSnapshot>
+                                                  snapshot) {
+                                            if (snapshot.hasData) {
+                                              Map<String, dynamic> data2 =
+                                                  snapshot.data!.data()
+                                                      as Map<String, dynamic>;
+                                              if (data0[data1['Friend']
+                                                      [index + 1]['uid']][0]
+                                                  ['text']) {
+                                                return ChatsCard(
+                                                  checkonline:
+                                                      data2['checkonline'],
+                                                  email: data2['email'],
+                                                  fullname: data2['fullname'],
+                                                  img: data2['img'],
+                                                  uid: data2['uid'],
+                                                  lastmessenger: data0[
+                                                          data1['Friend']
+                                                                  [index + 1]
+                                                              ['uid']][0]
+                                                      ['messenger'],
+                                                  time: data0[data1['Friend']
+                                                          [index + 1]['uid']][0]
+                                                      ['time'],
+                                                  seen: data0[data1['Friend']
+                                                          [index + 1]['uid']][0]
+                                                      ['seen'],
+                                                  send: data0[data1['Friend']
+                                                          [index + 1]['uid']][0]
+                                                      ['send'],
+                                                  press: () async {
+                                                    var doc =
+                                                        await FirebaseFirestore
+                                                            .instance
+                                                            .collection(
+                                                                'UserDetail')
+                                                            .doc(FirebaseAuth
+                                                                .instance
+                                                                .currentUser!
+                                                                .email
+                                                                .toString());
+                                                    doc.get().then((value) {
+                                                      var ad = value.data();
+
+                                                      updatelastmessengerunsend(
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid
+                                                              .toString(),
+                                                          data2['uid'],
+                                                          data2['email'],
+                                                          data2['fullname'],
+                                                          data2['img'],
+                                                          data0[data1['Friend'][
+                                                                      index + 1]
+                                                                  ['uid']][0]
+                                                              ['messenger'],
+                                                          true,
+                                                          false,
+                                                          data0[data1['Friend']
+                                                                      [index + 1]
+                                                                  ['uid']][0]
+                                                              ['send'],
+                                                          formattedDate);
+                                                    }).catchError((error) => print(
+                                                        "Failed loi ngu: $error"));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
                                                                 MessengerScreen(
                                                                   email: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['email'],
+                                                                              'Friend']
+                                                                          [
+                                                                          index +
+                                                                              1]['uid']]
+                                                                      [
+                                                                      0]['email'],
                                                                   fullname: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['fullname'],
+                                                                              'Friend']
+                                                                          [
+                                                                          index +
+                                                                              1]['uid']][0]
+                                                                      [
+                                                                      'fullname'],
                                                                   img: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['img'],
+                                                                              'Friend']
+                                                                          [
+                                                                          index +
+                                                                              1]['uid']]
+                                                                      [
+                                                                      0]['img'],
                                                                   uid: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['uid'],
-                                                                ))),
+                                                                              'Friend']
+                                                                          [
+                                                                          index +
+                                                                              1]['uid']]
+                                                                      [
+                                                                      0]['uid'],
+                                                                )));
+                                                  },
+                                                );
+                                              } else {
+                                                return ChatsCard(
+                                                  checkonline:
+                                                      data2['checkonline'],
+                                                  email: data2['email'],
+                                                  fullname: data2['fullname'],
+                                                  img: data2['img'],
+                                                  uid: data2['uid'],
+                                                  lastmessenger: "Đã gửi 1 ảnh",
+                                                  time: data0[data1['Friend']
+                                                          [index + 1]['uid']][0]
+                                                      ['time'],
+                                                  seen: data0[data1['Friend']
+                                                          [index + 1]['uid']][0]
+                                                      ['seen'],
+                                                  send: data0[data1['Friend']
+                                                          [index + 1]['uid']][0]
+                                                      ['send'],
+                                                  press: () => Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MessengerScreen(
+                                                                email: data0[data1[
+                                                                            'Friend']
+                                                                        [index +
+                                                                            1]['uid']]
+                                                                    [
+                                                                    0]['email'],
+                                                                fullname: data0[data1[
+                                                                            'Friend']
+                                                                        [index +
+                                                                            1]['uid']][0]
+                                                                    [
+                                                                    'fullname'],
+                                                                img: data0[data1[
+                                                                            'Friend']
+                                                                        [index +
+                                                                            1]['uid']]
+                                                                    [0]['img'],
+                                                                uid: data0[data1[
+                                                                            'Friend']
+                                                                        [index +
+                                                                            1]['uid']]
+                                                                    [0]['uid'],
+                                                              ))),
+                                                );
+                                              }
+                                            } else
+                                              return Addfriendtext(
+                                                press: () {
+                                                  Navigator.pushNamed(
+                                                      context,
+                                                      AddFriendScreen
+                                                          .routeName);
+                                                },
+                                                text: "Kết bạn",
                                               );
-                                            } else {
-                                              return ChatsCard(
-                                                checkonline:
-                                                    data2['checkonline'],
-                                                email: data2['email'],
-                                                fullname: data2['fullname'],
-                                                img: data2['img'],
-                                                uid: data2['uid'],
-                                                lastmessenger: "Đã gửi 1 ảnh",
-                                                time: data0[data1['Friend']
-                                                        [index + 1]['uid']]
-                                                    [_le - 1]['time'],
-                                                seen: data0[data1['Friend']
-                                                        [index + 1]['uid']]
-                                                    [_le - 1]['seen'],
-                                                send: data0[data1['Friend']
-                                                        [index + 1]['uid']]
-                                                    [_le - 1]['send'],
-                                                press: () => Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                                MessengerScreen(
-                                                                  email: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['email'],
-                                                                  fullname: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['fullname'],
-                                                                  img: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['img'],
-                                                                  uid: data0[data1[
-                                                                          'Friend']
-                                                                      [index +
-                                                                          1]['uid']][_le -
-                                                                      1]['uid'],
-                                                                ))),
-                                              );
-                                            }
-                                          } else
-                                            return Text(
-                                                "Đồ ngu, éo có tin nhắn");
-                                        });
+                                          });
+                                    } else
+                                      return Addfriendtext(
+                                        press: () {
+                                          Navigator.pushNamed(context,
+                                              AddFriendScreen.routeName);
+                                        },
+                                        text: "Kết bạn",
+                                      );
                                   } else
-                                    return Text("Đồ ngu, không có bạn");
-                                } else
-                                  return Text("Đồ ngu, không có bạn");
-                              });
-                        }));
+                                    return Addfriendtext(
+                                      press: () {
+                                        Navigator.pushNamed(
+                                            context, AddFriendScreen.routeName);
+                                      },
+                                      text: "Kết bạn",
+                                    );
+                                });
+                          }));
+                } else
+                  return Addfriendtext(
+                    press: () {
+                      Navigator.pushNamed(context, AddFriendScreen.routeName);
+                    },
+                    text: "Kết bạn",
+                  );
               } else
-                return Text("Đồ ngu, không có bạn");
+                return Addfriendtext(
+                  press: () {
+                    Navigator.pushNamed(context, AddFriendScreen.routeName);
+                  },
+                  text: "Kết bạn",
+                );
             })
       ],
     );

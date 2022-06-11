@@ -48,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "Skip",
+                      "Bỏ qua",
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           color: Theme.of(context)
                               .textTheme

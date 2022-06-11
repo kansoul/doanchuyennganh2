@@ -64,29 +64,6 @@ class ChatsInputField extends StatelessWidget {
                       img);
                   // addfriend(uid, ad['uid'], ad['email'], ad['img'],
                   //     ad['fullname']);
-
-                  // messengerhellosend(
-                  //     uid,
-                  //     ad['uid'],
-                  //     ad['email'],
-                  //     ad['fullname'],
-                  //     ad['img'],
-                  //     messengercontroller.text,
-                  //     true,
-                  //     true,
-                  //     true,
-                  //     formattedDate);
-                  // messengerhellounsend(
-                  //     FirebaseAuth.instance.currentUser!.uid.toString(),
-                  //     uid,
-                  //     email,
-                  //     fullname,
-                  //     img,
-                  //     messengercontroller.text,
-                  //     true,
-                  //     false,
-                  //     false,
-                  //     formattedDate);
                 }).catchError((error) => print("Failed gui tin nhan: $error"));
               },
               icon: Icon(
@@ -137,6 +114,28 @@ class ChatsInputField extends StatelessWidget {
                       true,
                       formattedDate);
                   messengerhellounsend(
+                      FirebaseAuth.instance.currentUser!.uid.toString(),
+                      uid,
+                      email,
+                      fullname,
+                      img,
+                      messengercontroller.text,
+                      true,
+                      false,
+                      false,
+                      formattedDate);
+                  updatelastmessengersend(
+                      uid,
+                      ad['uid'],
+                      ad['email'],
+                      ad['fullname'],
+                      ad['img'],
+                      messengercontroller.text,
+                      true,
+                      true,
+                      true,
+                      formattedDate);
+                  updatelastmessengerunsend(
                       FirebaseAuth.instance.currentUser!.uid.toString(),
                       uid,
                       email,

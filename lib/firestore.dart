@@ -338,3 +338,168 @@ Future<void> createfriendreq(String email) async {
   ;
   return;
 }
+
+Future<void> lastmessengersend(
+    String uid0,
+    String uid1,
+    String email,
+    String fullname,
+    String img,
+    String messenger,
+    bool text,
+    bool seen,
+    bool send,
+    String time) async {
+  //String a = "friend";
+  DocumentReference ref =
+      FirebaseFirestore.instance.collection("LastMessenger").doc(uid0);
+  ref
+      .update({
+        uid1: FieldValue.arrayUnion([
+          {
+            "email": email,
+            "fullname": fullname,
+            "img": img,
+            "messenger": messenger,
+            "text": text,
+            "seen": seen,
+            "send": send,
+            "time": time,
+            "uid": uid1,
+          }
+        ])
+      })
+      .then((value) => print("Update messenger"))
+      .catchError((error) => print("Failed to update messenger user: $error"));
+  ;
+  return;
+}
+
+Future<void> lastmessengerunsend(
+    String uid0,
+    String uid1,
+    String email,
+    String fullname,
+    String img,
+    String messenger,
+    bool text,
+    bool seen,
+    bool send,
+    String time) async {
+  //String a = "friend";
+  DocumentReference ref =
+      FirebaseFirestore.instance.collection("LastMessenger").doc(uid0);
+  ref
+      .update({
+        uid1: FieldValue.arrayUnion([
+          {
+            "email": email,
+            "fullname": fullname,
+            "img": img,
+            "messenger": messenger,
+            "text": text,
+            "seen": seen,
+            "send": send,
+            "time": time,
+            "uid": uid1,
+          }
+        ])
+      })
+      .then((value) => print("Update messenger"))
+      .catchError((error) => print("Failed to update messenger user: $error"));
+  ;
+  return;
+}
+
+Future<void> createchatlast(String uid) async {
+  DocumentReference<Map<String, dynamic>> users =
+      FirebaseFirestore.instance.collection("LastMessenger").doc(uid);
+  users
+      .set({
+        "Chat": FieldValue.arrayUnion([
+          {
+            "Hello": "Hello",
+          }
+        ])
+      })
+      .then((value) => print("Create chat done"))
+      .catchError((error) => print("Failed to create chat: $error"));
+  ;
+  return;
+}
+
+Future<void> updatelastmessengersend(
+    String uid0,
+    String uid1,
+    String email,
+    String fullname,
+    String img,
+    String messenger,
+    bool text,
+    bool seen,
+    bool send,
+    String time) async {
+  DocumentReference ref =
+      FirebaseFirestore.instance.collection("LastMessenger").doc(uid0);
+  ref.update({uid1: FieldValue.delete()}).then((value) {
+    ref
+        .update({
+          uid1: FieldValue.arrayUnion([
+            {
+              "email": email,
+              "fullname": fullname,
+              "img": img,
+              "messenger": messenger,
+              "text": text,
+              "seen": seen,
+              "send": send,
+              "time": time,
+              "uid": uid1,
+            }
+          ])
+        })
+        .then((value) => print("Update last messenger"))
+        .catchError(
+            (error) => print("Failed to update messenger user: $error"));
+  }).catchError((error) => print("Failed to update messenger user: $error"));
+  ;
+  return;
+}
+
+Future<void> updatelastmessengerunsend(
+    String uid0,
+    String uid1,
+    String email,
+    String fullname,
+    String img,
+    String messenger,
+    bool text,
+    bool seen,
+    bool send,
+    String time) async {
+  DocumentReference ref =
+      FirebaseFirestore.instance.collection("LastMessenger").doc(uid0);
+  ref.update({uid1: FieldValue.delete()}).then((value) {
+    ref
+        .update({
+          uid1: FieldValue.arrayUnion([
+            {
+              "email": email,
+              "fullname": fullname,
+              "img": img,
+              "messenger": messenger,
+              "text": text,
+              "seen": seen,
+              "send": send,
+              "time": time,
+              "uid": uid1,
+            }
+          ])
+        })
+        .then((value) => print("Update last messenger"))
+        .catchError(
+            (error) => print("Failed to update messenger user: $error"));
+  }).catchError((error) => print("Failed to update messenger user: $error"));
+  ;
+  return;
+}

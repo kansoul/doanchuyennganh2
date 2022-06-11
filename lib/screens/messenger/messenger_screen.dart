@@ -52,7 +52,14 @@ class MessengerScreen extends StatelessWidget {
               onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => DialScreen())),
               icon: Icon(Icons.local_phone)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.videocam)),
+          IconButton(
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DialScreen(),
+                    ),
+                  ),
+              icon: Icon(Icons.videocam)),
           SizedBox(
             width: kDefaultPadding / 2,
           )

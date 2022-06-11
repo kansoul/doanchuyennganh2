@@ -15,17 +15,17 @@ class Body extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: SizeConfig.screenHeight * 0.03),
-                Text("Complete Profile", style: headingStyle),
+                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                Text("Hoàn thành hồ sơ", style: headingStyle),
                 Text(
-                  "Complete your details or continue  \nwith social media",
+                  "Hoàn thành thông tin chi tiết của bạn hoặc tiếp tục \nvới mạng xã hội",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.06),
                 CompleteProfileForm(),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 Text(
-                  "By continuing your confirm that you agree \nwith our Term and Condition",
+                  "Bằng cách tiếp tục xác nhận rằng bạn đồng ý \nvới Điều khoản và Điều kiện của chúng tôi",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption,
                 ),

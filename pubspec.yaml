@@ -44,9 +44,14 @@ dependencies:
   flutter_svg: ^0.20.0-nullsafety.3
   simple_animations: ^4.0.2
   image_picker: ^0.8.5
-  permission_handler: ^9.2.0
   select_form_field: "^2.2.0"
   provider: ^4.3.1
+  # # agora rtc engine
+  # agora_rtc_engine: ^1.0.8
+
+  # # permission handler
+  # permission_handler: 3.0.0
+
 
 dev_dependencies:
   flutter_test:

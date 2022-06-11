@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+//import 'package:permission_handler/permission_handler.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 
 // import '../../../firestore.dart';

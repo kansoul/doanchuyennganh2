@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'MS Free',
       debugShowCheckedModeBanner: false,
       theme: lightThemeData(context),
       initialRoute: WelcomeScreen.routeName,

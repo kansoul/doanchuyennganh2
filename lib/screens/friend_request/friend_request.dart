@@ -12,7 +12,7 @@ class FriendRequest extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Friend Request",
+          "Yêu cầu kết bạn",
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
         backgroundColor: Colors.white,

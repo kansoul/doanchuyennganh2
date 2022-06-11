@@ -10,7 +10,7 @@ class ListFriend extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "List Friend",
+          "Danh sách bạn bè",
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
         backgroundColor: Colors.white,

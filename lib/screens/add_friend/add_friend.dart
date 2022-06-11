@@ -12,7 +12,7 @@ class AddFriendScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Friend Request",
+          "Thêm bạn",
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
         backgroundColor: Colors.white,

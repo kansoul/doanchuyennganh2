@@ -1,11 +1,18 @@
+import 'package:chatapp/components/addfriend_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:io';
 import '../../../components/default_button.dart';
 import '../../../components/primary_button.dart';
 import '../../../firestore.dart';
 import '../../../models/Chat.dart';
+import 'package:intl/intl.dart';
+
+import '../../add_friend/add_friend.dart';
+
+DateTime now = DateTime.now();
+String formattedDate = DateFormat('kk:mm').format(now);
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -93,8 +100,11 @@ class Body extends StatelessWidget {
                         border: InputBorder.none),
                   ),
                 ),
-                viewFriendRequest(),
-                Text("Ngu")
+                Addfriendtext(
+                    press: () {
+                      Navigator.pushNamed(context, AddFriendScreen.routeName);
+                    },
+                    text: "Kết bạn")
               ]));
             }
           } else {
@@ -164,7 +174,7 @@ Widget viewFriendRequest() {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "Goi y",
+          "Lời mời kết bạn",
           style: TextStyle(
               color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12),
         )
@@ -297,14 +307,14 @@ Widget gridViewItem({
                             .toString());
                     doc.get().then((value) {
                       var ad = value.data();
-                      print(ad!['uid']);
+                      //print(ad!['uid']);
 
                       // addfriend(uid, ad['uid'], ad['email'], ad['img'],
                       //     ad['fullname']);
 
                       messengerhellosend(
                           uid,
-                          ad['uid'],
+                          ad!['uid'],
                           ad['email'],
                           ad['fullname'],
                           ad['img'],
@@ -312,7 +322,7 @@ Widget gridViewItem({
                           true,
                           true,
                           true,
-                          "7h");
+                          formattedDate);
                       messengerhellounsend(
                           FirebaseAuth.instance.currentUser!.uid.toString(),
                           uid,
@@ -323,7 +333,29 @@ Widget gridViewItem({
                           true,
                           true,
                           false,
-                          "7h");
+                          formattedDate);
+                      lastmessengersend(
+                          uid,
+                          ad['uid'],
+                          ad['email'],
+                          ad['fullname'],
+                          ad['img'],
+                          "Hello",
+                          true,
+                          true,
+                          true,
+                          formattedDate);
+                      lastmessengersend(
+                          FirebaseAuth.instance.currentUser!.uid.toString(),
+                          uid,
+                          email,
+                          name,
+                          image,
+                          "Hello",
+                          true,
+                          true,
+                          false,
+                          formattedDate);
                     }).catchError((error) => print("Failed loi ngu: $error"));
                   },
                   child: Text('Đồng ý'),
