@@ -52,7 +52,7 @@ class Body extends StatelessWidget {
                   ),
                 );
               } else
-                return Text("éo có tin nhắn");
+                return Text("NO DATA");
             }),
         ChatsInputField(email: email, fullname: fullname, img: img, uid: uid),
       ],

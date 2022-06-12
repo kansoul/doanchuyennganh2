@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 import '../../../models/Chat.dart';
+import 'package:intl/intl.dart';
 
 class ChatsCard extends StatelessWidget {
   const ChatsCard({
@@ -29,6 +30,7 @@ class ChatsCard extends StatelessWidget {
   final VoidCallback press;
   @override
   Widget build(BuildContext context) {
+    String formattedDate = time.substring(0, 5);
     return InkWell(
       onTap: press,
       child: Padding(
@@ -88,7 +90,7 @@ class ChatsCard extends StatelessWidget {
                 ),
               ),
             ),
-            Opacity(opacity: 0.64, child: Text(time))
+            Opacity(opacity: 0.64, child: Text(formattedDate))
           ],
         ),
       ),

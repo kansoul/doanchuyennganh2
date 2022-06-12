@@ -3,6 +3,7 @@ import 'package:chatapp/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../dialScreen/dial_screen.dart';
+import '../videocall_screen/videocall_screen.dart';
 import 'components/body.dart';
 
 class MessengerScreen extends StatelessWidget {
@@ -10,13 +11,15 @@ class MessengerScreen extends StatelessWidget {
   final String fullname;
   final String img;
   final String uid;
+  final bool checkonline;
 
   const MessengerScreen(
       {Key? key,
       required this.email,
       required this.fullname,
       required this.img,
-      required this.uid})
+      required this.uid,
+      required this.checkonline})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class MessengerScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 16),
                 ),
                 Text(
-                  "Online",
+                  checkonline ? "Online" : "Offline",
                   style: TextStyle(fontSize: 12),
                 ),
               ],
@@ -50,7 +53,7 @@ class MessengerScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DialScreen())),
+                  MaterialPageRoute(builder: (context) => VideoCall_Screen())),
               icon: Icon(Icons.local_phone)),
           IconButton(
               onPressed: () => Navigator.push(

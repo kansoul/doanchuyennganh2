@@ -59,6 +59,8 @@ class FriendCard extends StatelessWidget {
               ),
               Text(
                 fullname,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.blueGrey,

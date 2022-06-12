@@ -6,6 +6,8 @@
     "configurations": [
 
 
+
+
         {
             "name": "chatapp",
             "request": "launch",
@@ -21,7 +23,7 @@
             "name": "AndroidBlack",
             "request": "launch",
             "type": "dart",
-            "deviceId": "emulator-5556"
+            "deviceId": "emulator-5554"
         },
         {
             "name": "Mi 9T",
@@ -34,7 +36,7 @@
     "compounds": [
         {
             "name": "All Devices",
-            "configurations": ["AndroidWhite","Mi 9T" ]
+            "configurations": ["AndroidBlack","Mi 9T" ]
         }
     ]
 }

@@ -84,6 +84,8 @@ class Body extends StatelessWidget {
                                                   fullname: data['fullname'],
                                                   img: data['img'],
                                                   uid: data['uid'],
+                                                  checkonline:
+                                                      data['checkonline'],
                                                 )));
                                   },
                                 );
@@ -111,7 +113,9 @@ class Body extends StatelessWidget {
                 //data0->messenger
                 Map<String, dynamic> data0 =
                     snapshot.data!.data() as Map<String, dynamic>;
+
                 if (data0.length > 1) {
+                  //List lassmessenger = [];
                   return Expanded(
                       child: ListView.builder(
                           itemCount: data0.length - 1,
@@ -130,9 +134,9 @@ class Body extends StatelessWidget {
                                         .data() as Map<String, dynamic>;
                                     if (data1['Friend'].length ==
                                         data0.length) {
-                                      // int _le =
-                                      //     data0[data1['Friend'][index + 1]['uid']]
-                                      //         .length;
+                                      // lassmessenger
+                                      //     .sort((a, b) => a[1].compareTo(b[1]));
+                                      // print(lassmessenger);
                                       String _email =
                                           data1['Friend'][index + 1]['email'];
                                       //print(_email);
@@ -194,17 +198,18 @@ class Body extends StatelessWidget {
                                                           data2['email'],
                                                           data2['fullname'],
                                                           data2['img'],
-                                                          data0[data1['Friend'][
-                                                                      index + 1]
-                                                                  ['uid']][0]
-                                                              ['messenger'],
+                                                          data0[data1['Friend'][index + 1]['uid']]
+                                                              [0]['messenger'],
                                                           true,
                                                           false,
                                                           data0[data1['Friend']
                                                                       [index + 1]
                                                                   ['uid']][0]
                                                               ['send'],
-                                                          formattedDate);
+                                                          data0[data1['Friend']
+                                                                      [index + 1]
+                                                                  ['uid']][0]
+                                                              ['time']);
                                                     }).catchError((error) => print(
                                                         "Failed loi ngu: $error"));
                                                     Navigator.push(
@@ -240,6 +245,9 @@ class Body extends StatelessWidget {
                                                                               1]['uid']]
                                                                       [
                                                                       0]['uid'],
+                                                                  checkonline:
+                                                                      data2[
+                                                                          'checkonline'],
                                                                 )));
                                                   },
                                                 );
@@ -288,6 +296,8 @@ class Body extends StatelessWidget {
                                                                         [index +
                                                                             1]['uid']]
                                                                     [0]['uid'],
+                                                                checkonline: data2[
+                                                                    'checkonline'],
                                                               ))),
                                                 );
                                               }
@@ -338,4 +348,17 @@ class Body extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<List<String>> fetchFavorites() async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final user = FirebaseAuth.instance.currentUser;
+
+  final userData = await firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+      .get();
+
+  var faves = userData.get("favorites");
+  return faves;
 }

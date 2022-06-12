@@ -1,4 +1,3 @@
-import 'package:chatapp/screens/search_friend/search_friend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,9 @@ import '../../../firestore.dart';
 import '../../../models/Chat.dart';
 
 class Body extends StatelessWidget {
-  TextEditingController searchController = TextEditingController();
+  const Body({Key? key, required this.search}) : super(key: key);
+  final String search;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -18,36 +19,16 @@ class Body extends StatelessWidget {
             .where("email",
                 isNotEqualTo:
                     FirebaseAuth.instance.currentUser!.email.toString())
+            //.where('email', isEqualTo: search)
+            .where('email', isGreaterThanOrEqualTo: search)
+            .where('email', isLessThanOrEqualTo: search + '\uf7ff')
             .snapshots(),
         builder: (context, snapshot) {
-          // DocumentSnapshot doc = snapshot.data!.docs[index];
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.docs.length > 0) {
+            print(snapshot.data!.docs);
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-                    padding: EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(245, 233, 230, 230),
-                        borderRadius: BorderRadius.circular(29.5)),
-                    child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                          hintText: 'Nhập email bạn bè',
-                          prefixIcon: IconButton(
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    SearchFriend(search: searchController.text),
-                              ),
-                            ),
-                            icon: Icon(Icons.search, size: 25),
-                          ),
-                          border: InputBorder.none),
-                    ),
-                  ),
                   viewFriendRequest(),
                   Column(
                     children: [
@@ -80,7 +61,7 @@ class Body extends StatelessWidget {
               ),
             );
           } else {
-            return Text("No data");
+            return Center(child: Text("Không tìm thấy kết quả"));
           }
         });
   }
@@ -148,7 +129,7 @@ Widget viewFriendRequest() {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "Gợi ý kết bạn",
+          "Kết quả tìm kiếm",
           style: TextStyle(
               color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12),
         )

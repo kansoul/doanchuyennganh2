@@ -63,9 +63,10 @@ OutlineInputBorder outlineInputBorder() {
   );
 }
 
-const String MESSAGES_COLLECTION = "messages";
-const String USERS_COLLECTION = "users";
-const String CALL_COLLECTION = "call";
+const String APP_ID = "23d01a92efcb436c95df9e87bf846f44";
+const String CHANNEL_NAME = "callvideo";
+const String TEMPTOKEN =
+    "00623d01a92efcb436c95df9e87bf846f44IABRgbeT7Ig0GpJ5V+imKipKnmN/aiTAVV6m27dJAj5S7GvNYxYAAAAAIgBF5qhUA+ulYgQAAQAC66ViAgAC66ViAwAC66ViBAAC66Vi";
 
 const String TIMESTAMP_FIELD = "timestamp";
 const String EMAIL_FIELD = "email";

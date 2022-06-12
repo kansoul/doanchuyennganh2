@@ -26,8 +26,7 @@ class ChatsInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController messengercontroller = TextEditingController();
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('kk:mm').format(now);
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: kDefaultPadding,
@@ -98,7 +97,8 @@ class ChatsInputField extends StatelessWidget {
                 doc.get().then((value) {
                   var ad = value.data();
                   print(ad!['uid']);
-
+                  DateTime now = DateTime.now();
+                  String formattedDate = DateFormat('kk:mm:ss').format(now);
                   // addfriend(uid, ad['uid'], ad['email'], ad['img'],
                   //     ad['fullname']);
 
@@ -198,6 +198,10 @@ uploadImage(
         messengerhellosend(uid1, uid2, email, fullname, img, imageUrl, false,
             true, true, formattedDate);
         messengerhellounsend(uid2, uid1, email1, fullname1, img1, imageUrl,
+            false, false, false, formattedDate);
+        updatelastmessengersend(uid1, uid2, email, fullname, img, imageUrl,
+            false, true, true, formattedDate);
+        updatelastmessengerunsend(uid2, uid1, email1, fullname1, img1, imageUrl,
             false, false, false, formattedDate);
       } catch (onError) {
         print("Error");
